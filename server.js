@@ -43,9 +43,9 @@ app.get("/api/todos", (req, res) => {
     const data = fs.readFileSync(file, "utf8");
     const todos = JSON.parse(data);
 
-    const copy = [...todos];
-    const current = copy.find((t) => t.id === Number(id));
-    current.isComplite = !current.isComplite;
+    const copyTodos = [...todos];
+    const currentTask = copyTodos.find((t) => t.id === Number(id));
+    currentTask.isComplite = !currentTask.isComplite;
 
     const dataTodos = JSON.stringify(todos);
     fs.writeFileSync(file, dataTodos, (err, response) => {
