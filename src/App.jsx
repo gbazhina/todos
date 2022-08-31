@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import './App.css';
+import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import TodoItem from "./components/TodoItem/TodoItem";
-import CreateTodo from './components/CreateTodo/CreateTodo';
+import CreateTodo from "./components/CreateTodo/CreateTodo";
 import {
   getTodoList,
   deleteTask,
-  compliteTask
+  compliteTask,
 } from "./store/slices/todos.slice";
 
 function App() {
@@ -26,19 +26,13 @@ function App() {
     dispatch(compliteTask(id)).then(() => {
       dispatch(getTodoList());
     });
-  }
+  };
 
   const removeTodo = (id) => {
-    // const copy = [...todos];
-    // const current = copy.find(t => t.id === id);
-    // current.isComplited = !current.isComplited;
-    // const dataEdit = ([...todos].filter(t => t.id !== id));
-    // console.log("dataEdit", dataEdit);
-    console.log("id", id);
     dispatch(deleteTask(id)).then(() => {
       dispatch(getTodoList());
     });
-  }
+  };
 
   return (
     <div className="App">

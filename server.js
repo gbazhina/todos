@@ -39,10 +39,10 @@ app
     return res.status(200).send({ data: req.todos });
   });
 
+  // меняем статус у задачи
   app.put("/api/todos/", jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
 
-console.log("taskId", req.body.id);
     var taskId = req.body.id;
     var taskTitle = req.body.title;
     var taskComplite = req.body.isComplite;
@@ -56,7 +56,7 @@ console.log("taskId", req.body.id);
         break;
       }
     }
-    // изменяем данные у пользователя
+    
     if (task) {
       task.id = taskId;
       task.title = taskTitle;
@@ -146,38 +146,21 @@ console.log("taskId", req.body.id);
     res.send(task);
   });
 
+  // удаление задачи
   app.delete("/api/todos/:id", function (req, res) {
-    console.log("req.todos[req.params.id]", req.todos[req.params.id]);
+    const id = req.params.id;
+    const data = fs.readFileSync("todos.json", "utf8");
+    const todos = JSON.parse(data);
 
-    console.log("req.todos", req.todos);
-    console.log("req.params.id", req.params.id);
+    const dataFiltred = [...todos].filter((t) => t.id !== Number(id));
 
-    delete req.todos[req.params.id];
-    fs.writeFile("todos.json", JSON.stringify(req.todos), (err, response) => {
-      if (err) return res.status(500).send({ message: "Unable delete task." });
-      return res.status(200).send({ message: "Task deleted." });
+    const dataTodos = JSON.stringify(dataFiltred);
+    fs.writeFileSync("todos.json", dataTodos, (err, response) => {
+      if (err) return res.status(500).send({ message: "Unable add task." });
+      return res.status(200).send({ message: "Task added." });
     });
-    // var id = req.params.id;
-    // var data = fs.readFileSync("todos.json", "utf8");
-    // var todos = JSON.parse(data);
-    // var index = -1;
-    // // находим индекс пользователя в массиве
-    // for (var i = 0; i < todos.length; i++) {
-    //   if (todos[i].id === id) {
-    //     index = i;
-    //     break;
-    //   }
-    // }
-    // if (index > -1) {
-    //   // удаляем пользователя из массива по индексу
-    //   var task = todos.splice(index, 1)[0];
-    //   var dataTodos = JSON.stringify(todos);
-    //   fs.writeFileSync("todos.json", dataTodos);
-    //   // отправляем удаленного пользователя
-    //   res.send(task);
-    // } else {
-    //   res.status(404).send();
-    // }
+
+    res.status(200).send();
   });
 
 app.listen(port, host, () =>

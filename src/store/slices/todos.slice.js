@@ -32,7 +32,6 @@ export const deleteTask = createAsyncThunk("todos/deleteTask", async (id) => {
 
 export const addTask = createAsyncThunk("todos/addTask", async (params) => {
   const response = await axios.post(`${apiPrefix}`, setParams(params));
-  console.log("response", response);
   return response.data.data;
 });
 
@@ -40,7 +39,6 @@ export const compliteTask = createAsyncThunk(
   "todos/compliteTask",
   async (params) => {
     const response = await axios.put(`${apiPrefix}`, setParams(params));
-    console.log("response put", response);
     return response.data.data;
   }
 );
