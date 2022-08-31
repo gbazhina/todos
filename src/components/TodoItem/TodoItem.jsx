@@ -8,7 +8,7 @@ const TodoItem = ({todo, changeTodo, removeTodo}) => {
     return (
       <div className={styles.item}>
         <div className={styles.checkButton} onClick={() => changeTodo(todo.id)}>
-          {todo.isComplite && <BsCheck size={20} />}
+          {todo.isComplite && <BsCheck size={18} />}
         </div>
         <div className={todo.isComplite ? styles.titleComplited : styles.title}>
           {todo.title}
