@@ -23,7 +23,9 @@ function App() {
     // console.log("current", current.isComplite);
     // current.isComplite = !current.isComplite;
     // setTodos(copy);
-    dispatch(compliteTask(id));
+    dispatch(compliteTask(id)).then(() => {
+      dispatch(getTodoList());
+    });
   }
 
   const removeTodo = (id) => {
@@ -32,8 +34,10 @@ function App() {
     // current.isComplited = !current.isComplited;
     // const dataEdit = ([...todos].filter(t => t.id !== id));
     // console.log("dataEdit", dataEdit);
-    dispatch(deleteTask(id));
-    dispatch(getTodoList());
+    console.log("id", id);
+    dispatch(deleteTask(id)).then(() => {
+      dispatch(getTodoList());
+    });
   }
 
   return (

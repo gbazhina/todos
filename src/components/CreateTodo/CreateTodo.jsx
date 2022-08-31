@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getTodoList, addTask } from "../../store/slices/todos.slice";
-import { Input } from "antd";
+import { Button, Input } from "antd";
 
 import styles from "./CreateTodo.module.scss";
 
-const CreateTodo = ({ setTodos }) => {
+const CreateTodo = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
 
@@ -15,13 +15,11 @@ const CreateTodo = ({ setTodos }) => {
       title,
       isComplite: false
     };
-    dispatch(addTask(params));
+    dispatch(addTask(params)).then(() => {
+      dispatch(getTodoList());
+    });
     setTitle("");
   };
-
-  useEffect(() => {
-    dispatch(getTodoList());
-  }, [dispatch]);
 
   return (
     <div className={styles.item}>
@@ -33,6 +31,7 @@ const CreateTodo = ({ setTodos }) => {
         size="large"
         onKeyPress={(e) => e.key === "Enter" && addTodo(title)}
       />
+      <Button onClick={()=> {addTodo(title);}}>Apply</Button>
     </div>
   );
 };

@@ -39,8 +39,7 @@ export const addTask = createAsyncThunk("todos/addTask", async (params) => {
 export const compliteTask = createAsyncThunk(
   "todos/compliteTask",
   async (params) => {
-    console.log("response params", params);
-    const response = await axios.put(`${apiPrefix}`);
+    const response = await axios.put(`${apiPrefix}`, setParams(params));
     console.log("response put", response);
     return response.data.data;
   }

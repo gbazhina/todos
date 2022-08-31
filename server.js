@@ -37,7 +37,37 @@ app
       return res.status(404).send({ message: "Tasks not found." });
 
     return res.status(200).send({ data: req.todos });
-  })
+  });
+
+  app.put("/api/todos/", jsonParser, function (req, res) {
+    if (!req.body) return res.sendStatus(400);
+
+console.log("taskId", req.body.id);
+    var taskId = req.body.id;
+    var taskTitle = req.body.title;
+    var taskComplite = req.body.isComplite;
+
+    var data = fs.readFileSync("todos.json", "utf8");
+    var todos = JSON.parse(data);
+    var task;
+    for (var i = 0; i < todos.length; i++) {
+      if (todos[i].id === taskId) {
+        task = todos[i];
+        break;
+      }
+    }
+    // изменяем данные у пользователя
+    if (task) {
+      task.id = taskId;
+      task.title = taskTitle;
+      task.isComplite = taskComplite;
+      var dataTodos = JSON.stringify(todos);
+      fs.writeFileSync("todos.json", dataTodos);
+      res.send(task);
+    } else {
+      res.status(404).send(task);
+    }
+  });
   // .post((req, res) => {
   //   console.log("req body id", req.body.id);
   //   if (req.body && req.body.id) {
@@ -54,21 +84,21 @@ app
   //     });
   //   } else return res.status(400).send({ message: "Bad request." });
   // })
-  .put((req, res) => {
-    if (req.body && req.body.id) {
-      if (!req.todos.hasOwnProperty(req.body.id))
-        return res.status(404).send({ message: "Task not found." });
+  // .put((req, res) => {
+  //   if (req.body && req.body.id) {
+  //     if (!req.todos.hasOwnProperty(req.body.id))
+  //       return res.status(404).send({ message: "Task not found." });
 
-      req.todos[req.body.id] = req.body;
+  //     req.todos[req.body.id] = req.body;
 
-      fs.writeFile(file, JSON.stringify(req.todos), (err, response) => {
-        if (err)
-          return res.status(500).send({ message: "Unable update task." });
+  //     fs.writeFile(file, JSON.stringify(req.todos), (err, response) => {
+  //       if (err)
+  //         return res.status(500).send({ message: "Unable update task." });
 
-        return res.status(200).send({ message: "Task updated." });
-      });
-    } else return res.status(400).send({ message: "Bad request." });
-  });
+  //       return res.status(200).send({ message: "Task updated." });
+  //     });
+  //   } else return res.status(400).send({ message: "Bad request." });
+  // });
   // .delete((req, res) => {
   //   console.log("req params", req.params);
   //   console.log("req query", req.query);
@@ -88,6 +118,7 @@ app
   //   } else return res.status(400).send({ message: "Bad request." });
   // });
 
+  // добавление задачи
   app.post("/api/todos/", jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
 
@@ -107,7 +138,6 @@ app
     task.id = id + 1;
     todos.push(task);
     const dataTodos = JSON.stringify(todos);
-    // fs.writeFileSync("todos.json", dataTodos);
     fs.writeFileSync("todos.json", dataTodos, (err, response) => {
       if (err) return res.status(500).send({ message: "Unable add task." });
       return res.status(200).send({ message: "Task added." });
@@ -117,27 +147,33 @@ app
   });
 
   app.delete("/api/todos/:id", function (req, res) {
+    console.log("req.todos[req.params.id]", req.todos[req.params.id]);
+
+    console.log("req.todos", req.todos);
+    console.log("req.params.id", req.params.id);
+
     delete req.todos[req.params.id];
     fs.writeFile("todos.json", JSON.stringify(req.todos), (err, response) => {
       if (err) return res.status(500).send({ message: "Unable delete task." });
       return res.status(200).send({ message: "Task deleted." });
     });
-    // const id = req.params.id;
-    // console.log("id", id);
-    // const data = fs.readFileSync("todos.json", "utf8");
-    // const todos = JSON.parse(data);
-    // let index = -1;
-    
-    // for (let i = 0; i < todos.length; i++) {
+    // var id = req.params.id;
+    // var data = fs.readFileSync("todos.json", "utf8");
+    // var todos = JSON.parse(data);
+    // var index = -1;
+    // // находим индекс пользователя в массиве
+    // for (var i = 0; i < todos.length; i++) {
     //   if (todos[i].id === id) {
     //     index = i;
     //     break;
     //   }
     // }
     // if (index > -1) {
-    //   const task = todos.splice(index, 1)[0];
-    //   const dataTodos = JSON.stringify(todos);
+    //   // удаляем пользователя из массива по индексу
+    //   var task = todos.splice(index, 1)[0];
+    //   var dataTodos = JSON.stringify(todos);
     //   fs.writeFileSync("todos.json", dataTodos);
+    //   // отправляем удаленного пользователя
     //   res.send(task);
     // } else {
     //   res.status(404).send();
