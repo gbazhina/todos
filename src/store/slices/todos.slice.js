@@ -14,9 +14,7 @@ const setParams = (rawParams) => {
   }
 
   const config = {
-    params: {
-      ...params,
-    },
+    ...params,
   };
 
   return config;
@@ -27,24 +25,26 @@ export const getTodoList = createAsyncThunk("todos/getTodoList", async (_) => {
   return response.data.data;
 });
 
-export const deleteTask = createAsyncThunk("todos/deleteTask", async (id) => 
-  axios.delete(`${apiPrefix}/${id}`)
-);
+export const deleteTask = createAsyncThunk("todos/deleteTask", async (id) => {
+  const response = await axios.delete(`${apiPrefix}/${id}`);
+  return response.data.data;
+});
 
-export const addTask = createAsyncThunk("todos/addTask", async params => {
-  console.log("response params", params);
+export const addTask = createAsyncThunk("todos/addTask", async (params) => {
   const response = await axios.post(`${apiPrefix}`, setParams(params));
-  console.log("response POST", response);
+  console.log("response", response);
   return response.data.data;
 });
 
-
-export const compliteTask = createAsyncThunk("todos/compliteTask", async (params) => {
-  console.log("response params", params);
-  const response = await axios.put(`${apiPrefix}`);
-  console.log("response put", response);
-  return response.data.data;
-});
+export const compliteTask = createAsyncThunk(
+  "todos/compliteTask",
+  async (params) => {
+    console.log("response params", params);
+    const response = await axios.put(`${apiPrefix}`);
+    console.log("response put", response);
+    return response.data.data;
+  }
+);
 
 const initialState = {
   todoList: [],
