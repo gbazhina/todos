@@ -21,13 +21,8 @@ function App() {
   const changeTodo = (id) => {
     const params = {
       id,
-      isComplite: false,
+      isComplite: false
     };
-    // const copy = [...todos];
-    // const current = copy.find(t => t.id === id);
-    // console.log("current", current.isComplite);
-    // current.isComplite = !current.isComplite;
-    // setTodos(copy);
     dispatch(compliteTask(params)).then(() => {
       dispatch(getTodoList());
     });
