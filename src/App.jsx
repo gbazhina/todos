@@ -18,8 +18,8 @@ function App() {
   }, [dispatch]);
 
   const changeTodo = (id) => {
-    const copy = [...todos];
-    const current = copy.find(t => t.id === id);
+    // const copy = [...todos];
+    // const current = copy.find(t => t.id === id);
     // console.log("current", current.isComplite);
     // current.isComplite = !current.isComplite;
     // setTodos(copy);
@@ -30,9 +30,10 @@ function App() {
     // const copy = [...todos];
     // const current = copy.find(t => t.id === id);
     // current.isComplited = !current.isComplited;
-    const dataEdit = ([...todos].filter(t => t.id !== id));
-    console.log("dataEdit", dataEdit);
+    // const dataEdit = ([...todos].filter(t => t.id !== id));
+    // console.log("dataEdit", dataEdit);
     dispatch(deleteTask(id));
+    dispatch(getTodoList());
   }
 
   return (

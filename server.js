@@ -66,7 +66,6 @@ app
     } else return res.status(400).send({ message: "Bad request." });
   })
   .delete((req, res) => {
-
     console.log("req", req);
     console.log("res", res);
     if (req.query.id) {

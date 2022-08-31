@@ -24,16 +24,12 @@ const setParams = (rawParams) => {
 
 export const getTodoList = createAsyncThunk("todos/getTodoList", async (_) => {
   const response = await axios.get(`${apiPrefix}`);
-  console.log("response", response);
   return response.data.data;
 });
 
-export const deleteTask = createAsyncThunk("todos/deleteTask", async (id) => {
-  console.log("response id", id);
-  const response = await axios.delete(`${apiPrefix}/:${id}`);
-  console.log("response id", response);
-  return response;
-});
+export const deleteTask = createAsyncThunk("todos/deleteTask", async (id) => 
+  axios.delete(`${apiPrefix}/${id}`)
+);
 
 export const addTask = createAsyncThunk("todos/addTask", async params => {
   console.log("response params", params);
