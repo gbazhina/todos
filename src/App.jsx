@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
+import "antd/dist/antd.css";
 import { useDispatch, useSelector } from "react-redux";
 import TodoItem from "./components/TodoItem/TodoItem";
 import CreateTodo from "./components/CreateTodo/CreateTodo";

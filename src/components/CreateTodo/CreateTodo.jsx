@@ -13,7 +13,7 @@ const CreateTodo = () => {
     const params = {
       id: new Date(),
       title,
-      isComplite: false
+      isComplite: false,
     };
     dispatch(addTask(params)).then(() => {
       dispatch(getTodoList());
@@ -23,15 +23,21 @@ const CreateTodo = () => {
 
   return (
     <div className={styles.item}>
-      Add a task:{" "}
       <Input
         type="text"
+        placeholder="Add a task"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
-        size="large"
         onKeyPress={(e) => e.key === "Enter" && addTodo(title)}
       />
-      <Button onClick={()=> {addTodo(title);}}>Apply</Button>
+      <Button
+        type="primary"
+        onClick={() => {
+          addTodo(title);
+        }}
+      >
+        Apply
+      </Button>
     </div>
   );
 };
