@@ -21,7 +21,7 @@ function App() {
   const changeTodo = (id) => {
     const params = {
       id,
-      isComplite: false
+      isComplite: false,
     };
     dispatch(compliteTask(params)).then(() => {
       dispatch(getTodoList());
