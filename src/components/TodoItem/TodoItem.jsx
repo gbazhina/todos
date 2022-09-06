@@ -17,7 +17,7 @@ const TodoItem = ({todo, changeTodo, removeTodo}) => {
           className={styles.deleteButton}
           onClick={() => removeTodo(todo.id)}
         >
-          <BsTrash />
+          <BsTrash size={18} />
         </div>
       </div>
     );
