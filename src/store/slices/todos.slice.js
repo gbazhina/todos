@@ -66,7 +66,7 @@ const todosSlice = createSlice({
     });
     builder.addCase(getTodoList.rejected, (state) => {
       state.loading = false;
-      message.error("Failed to get todo list");
+      message.error("Failed to get todo list.");
     });
 
     //delete task
