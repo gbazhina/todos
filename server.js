@@ -10,7 +10,7 @@ const port = 7000;
 app.use(cors());
 app.use(express.json());
 
-var jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json();
 app.use(express.urlencoded({ extended: true }));
 
 let file = "todos.json";
@@ -25,6 +25,14 @@ app.use((req, res, next) => {
     next();
   });
 });
+
+const writeFile = (res, data) => {
+  const dataTodos = JSON.stringify(data);
+  fs.writeFileSync(file, dataTodos, (err, response) => {
+    if (err) return res.status(500).send({ message: "Unable add task." });
+    return res.status(200).send({ message: "Task changed." });
+  });
+};
 
 app.get("/api/todos", (req, res) => {
   if (req.query.id) {
@@ -47,11 +55,12 @@ app.put("/api/todos/:id", (req, res) => {
   const currentTask = copyTodos.find((t) => t.id === Number(id));
   currentTask.isComplite = !currentTask.isComplite;
 
-  const dataTodos = JSON.stringify(todos);
-  fs.writeFileSync(file, dataTodos, (err, response) => {
-    if (err) return res.status(500).send({ message: "Unable add task." });
-    return res.status(200).send({ message: "Task added." });
-  });
+  // const dataTodos = JSON.stringify(todos);
+  // fs.writeFileSync(file, dataTodos, (err, response) => {
+  //   if (err) return res.status(500).send({ message: "Unable add task." });
+  //   return res.status(200).send({ message: "Task changed." });
+  // });
+  writeFile(res, todos);
 
   res.status(200).send();
 });
@@ -69,11 +78,12 @@ app.post("/api/todos", jsonParser, (req, res) => {
 
   task.id = Date.now();
   todos.push(task);
-  const dataTodos = JSON.stringify(todos);
-  fs.writeFileSync(file, dataTodos, (err, response) => {
-    if (err) return res.status(500).send({ message: "Unable add task." });
-    return res.status(200).send({ message: "Task added." });
-  });
+  // const dataTodos = JSON.stringify(todos);
+  // fs.writeFileSync(file, dataTodos, (err, response) => {
+  //   if (err) return res.status(500).send({ message: "Unable add task." });
+  //   return res.status(200).send({ message: "Task added." });
+  // });
+  writeFile(res, todos);
 
   res.send(task);
 });
@@ -86,11 +96,12 @@ app.delete("/api/todos/:id", (req, res) => {
 
   const dataFiltred = [...todos].filter((t) => t.id !== Number(id));
 
-  const dataTodos = JSON.stringify(dataFiltred);
-  fs.writeFileSync(file, dataTodos, (err, response) => {
-    if (err) return res.status(500).send({ message: "Unable add task." });
-    return res.status(200).send({ message: "Task added." });
-  });
+  // const dataTodos = JSON.stringify(dataFiltred);
+  // fs.writeFileSync(file, dataTodos, (err, response) => {
+  //   if (err) return res.status(500).send({ message: "Unable add task." });
+  //   return res.status(200).send({ message: "Task added." });
+  // });
+  writeFile(res, dataFiltred);
 
   res.status(200).send();
 });
