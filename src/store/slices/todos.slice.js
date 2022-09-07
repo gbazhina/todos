@@ -66,22 +66,31 @@ const todosSlice = createSlice({
     });
     builder.addCase(getTodoList.rejected, (state) => {
       state.loading = false;
-      message.error("Failed to get todo list");
+      message.error("Failed to get todo list.");
     });
 
     //delete task
-    builder.addCase(deleteTask.rejected, (state) => {
-      message.error("Failed to delete task");
+    builder.addCase(deleteTask.fulfilled, () => {
+      message.success("Task deleted.");
+    });
+    builder.addCase(deleteTask.rejected, () => {
+      message.error("Failed to delete task.");
     });
 
     //add task
-    builder.addCase(addTask.rejected, (state) => {
-      message.error("Failed to add task");
+    builder.addCase(addTask.fulfilled, () => {
+      message.success("Task added.");
+    });
+    builder.addCase(addTask.rejected, () => {
+      message.error("Failed to add task.");
     });
 
     //complite task
-    builder.addCase(compliteTask.rejected, (state) => {
-      message.error("Failed to complite task");
+    builder.addCase(compliteTask.fulfilled, () => {
+      message.success("Task changed.");
+    });
+    builder.addCase(compliteTask.rejected, () => {
+      message.error("Failed to complite task.");
     });
   },
 });
